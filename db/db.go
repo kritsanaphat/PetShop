@@ -3,6 +3,7 @@ package db
 import (
 	"log"
 
+	"github.com/kritsanaphat/PetShop/models"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 )
@@ -15,5 +16,7 @@ func Init() *gorm.DB {
 		log.Fatalln(err)
 	}
 
-	db.AutoMigrate(&db.Model.user{})
+	db.AutoMigrate(&models.User{})
+
+	return db
 }
