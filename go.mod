@@ -4,6 +4,7 @@ go 1.19
 
 require (
 	github.com/google/uuid v1.3.0
+	github.com/gorilla/mux v1.8.0
 	gorm.io/driver/postgres v1.4.5
 	gorm.io/gorm v1.24.1-0.20221019064659-5dd2bb482755
 )
