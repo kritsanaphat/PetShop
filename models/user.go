@@ -2,7 +2,6 @@ package models
 
 import (
 	"github.com/gofrs/uuid"
-	"github.com/jinzhu/gorm"
 )
 
 type User struct {
@@ -12,11 +11,7 @@ type User struct {
 	Email    string    `json:"email"`
 }
 
-// BeforeCreate will set a UUID rather than numeric ID.
-func (user *User) BeforeCreate(scope *gorm.Scope) error {
-	uuid, err := uuid.NewV4()
-	if err != nil {
-		return err
-	}
-	return scope.SetColumn("ID", uuid)
+type Login struct {
+	Fullname string `json:"fullname"`
+	Password string `json:"password"`
 }

@@ -10,7 +10,7 @@
         <label for="fullname">fullname:</label>
         <input type="text" id="fullname" name="fullname"><br><br>
         <label for="password">password:</label>
-        <input type="text" id="password" name="id"><br><br>
+        <input type="text" id="password" name="password"><br><br>
         <label for="email">email:</label>
         <input type="text" id="email" name="email"><br><br>
         <button id="myBtn">Submit</button>
@@ -23,15 +23,17 @@
         const password= document.getElementById("password")
         const email = document.getElementById("email")
         const submit = document.getElementById("myBtn")
+        // console.log(fullname.value)
+        // console.log(password.value)
+        // console.log(submit.value)
         const submitCommand = () => { 
-            console.log(id.value)
             axios.post('http://localhost:8080/user',
             {
                 
-               
-                Fullname: fullname.value,
-                Password: password.value,
-                Email: email.value
+                ID : "4959ac83-3f2d-4da6-b1c7-9ba81c390043",
+                fullname: fullname.value,
+                password: password.value,
+                email: email.value
                 
             }
             )
