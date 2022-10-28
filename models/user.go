@@ -13,7 +13,7 @@ type User struct {
 }
 
 // BeforeCreate will set a UUID rather than numeric ID.
-func (base *User) BeforeCreate(scope *gorm.Scope) error {
+func (user *User) BeforeCreate(scope *gorm.Scope) error {
 	uuid, err := uuid.NewV4()
 	if err != nil {
 		return err
