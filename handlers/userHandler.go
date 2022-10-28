@@ -20,7 +20,6 @@ func (h handler) AddUser(w http.ResponseWriter, r *http.Request) {
 
 	var user models.User
 	json.Unmarshal(body, &user)
-
 	result := h.DB.Create(&user)
 	if (result.Error) != nil {
 		fmt.Print(result.Error)
