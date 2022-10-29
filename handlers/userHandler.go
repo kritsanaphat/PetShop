@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	"fmt"
 	"log"
 	"net/http"
 
@@ -51,18 +52,20 @@ func (h handler) Login(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"err": err.Error()})
 		return
 	}
-
+	fmt.Print(json.Email, json.Password)
 	var emailExist models.Login
-	if err := h.DB.Where("username = ?", json.Email).First(&emailExist).Error; err != nil {
+	if err := h.DB.Where("Email = ?", json.Email).First(&emailExist).Error; err != nil {
 	} else {
 		c.JSON(http.StatusOK, gin.H{"status": "error", "message": "User Does Not Exist"})
+		return
 	}
 
 	var passwordExist models.Login
-	if err := h.DB.Where("username = ?", json.Password).First(&passwordExist).Error; err != nil {
+	if err := h.DB.Where("Password = ?", json.Password).First(&passwordExist).Error; err != nil {
 		c.JSON(http.StatusOK, gin.H{"status": "ok", "message": "Login Success"})
 	} else {
 		c.JSON(http.StatusOK, gin.H{"status": "error", "message": "Login Fail"})
+		return
 	}
 
 }
