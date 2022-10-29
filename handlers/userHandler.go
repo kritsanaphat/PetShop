@@ -8,6 +8,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/gofrs/uuid"
 	"github.com/kritsanaphat/PetShop/models"
+	"golang.org/x/crypto/bcrypt"
 )
 
 func (h handler) GetRegister(c *gin.Context) {
@@ -24,11 +25,14 @@ func (h handler) GetRegister(c *gin.Context) {
 }
 
 func (h handler) Register(c *gin.Context) {
+	var json models.User
 	uuid, err := uuid.NewV4()
 	if err != nil {
 		log.Fatalln(err)
 	}
-	var user models.User = models.User{ID: uuid}
+	encryptedPassword, _ := bcrypt.GenerateFromPassword([]byte(json.Password), 10)
+
+	var user models.User = models.User{ID: uuid, Password: string(encryptedPassword)}
 	if err := c.ShouldBindJSON(&user); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"error": err.Error(),
