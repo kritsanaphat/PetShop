@@ -26,18 +26,20 @@ func (h handler) GetRegister(c *gin.Context) {
 
 func (h handler) Register(c *gin.Context) {
 	var json models.User
-	uuid, err := uuid.NewV4()
-	if err != nil {
-		log.Fatalln(err)
-	}
-	encryptedPassword, _ := bcrypt.GenerateFromPassword([]byte(json.Password), 10)
-	var user models.User = models.User{ID: uuid, Password: string(encryptedPassword)}
-	if err := c.ShouldBindJSON(&user); err != nil {
+	if err := c.ShouldBindJSON(&json); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"error": err.Error(),
 		})
 		return
 	}
+
+	uuid, err := uuid.NewV4()
+	if err != nil {
+		log.Fatalln(err)
+	}
+	encryptedPassword, _ := bcrypt.GenerateFromPassword([]byte(json.Password), 10)
+	user := models.User{ID: uuid, Password: string(encryptedPassword),
+		Fullname: json.Fullname, Email: json.Email}
 
 	if result := h.DB.Create(&user); result.Error != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
@@ -56,15 +58,15 @@ func (h handler) Login(c *gin.Context) {
 		return
 	}
 	// fmt.Print(json.Email, json.Password)
-	var emailExist models.User
-	if err := h.DB.Where("Email = ?", json.Email).First(&emailExist).Error; err != nil {
-		fmt.Print(emailExist)
+	var userExist models.User
+	if err := h.DB.Where("Email = ?", json.Email).First(&userExist).Error; err != nil {
+		fmt.Print(userExist)
 		c.JSON(http.StatusOK, gin.H{"status": "error", "message": "User Does Not Exist"})
 		return
 	}
 
-	var passwordExist models.User
-	if err := h.DB.Where("Password = ?", json.Password).First(&passwordExist).Error; err != nil {
+	err := bcrypt.CompareHashAndPassword([]byte(userExist.Password), []byte(json.Password))
+	if err != nil {
 		c.JSON(http.StatusOK, gin.H{"status": "error", "message": "Login Fail"})
 		return
 
