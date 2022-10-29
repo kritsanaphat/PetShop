@@ -52,20 +52,21 @@ func (h handler) Login(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"err": err.Error()})
 		return
 	}
-	fmt.Print(json.Email, json.Password)
-	var emailExist models.Login
+	// fmt.Print(json.Email, json.Password)
+	var emailExist models.User
 	if err := h.DB.Where("Email = ?", json.Email).First(&emailExist).Error; err != nil {
-	} else {
+		fmt.Print(emailExist)
 		c.JSON(http.StatusOK, gin.H{"status": "error", "message": "User Does Not Exist"})
 		return
 	}
 
-	var passwordExist models.Login
+	var passwordExist models.User
 	if err := h.DB.Where("Password = ?", json.Password).First(&passwordExist).Error; err != nil {
-		c.JSON(http.StatusOK, gin.H{"status": "ok", "message": "Login Success"})
-	} else {
 		c.JSON(http.StatusOK, gin.H{"status": "error", "message": "Login Fail"})
 		return
+
+	} else {
+		c.JSON(http.StatusOK, gin.H{"status": "ok", "message": "Login Success"})
 	}
 
 }
