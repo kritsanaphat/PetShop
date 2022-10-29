@@ -16,6 +16,7 @@ func main() {
 	// fmt.Print(p)
 	r := gin.New()
 	r.GET("/user", h.GetRegister)
-	r.POST("/user", h.Register)
+	r.POST("/register", h.Register)
+	r.POST("/login", h.Login)
 	http.ListenAndServe(":8080", r)
 }

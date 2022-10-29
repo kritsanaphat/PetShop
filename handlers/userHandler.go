@@ -1,7 +1,6 @@
 package handlers
 
 import (
-	"fmt"
 	"log"
 	"net/http"
 
@@ -46,11 +45,24 @@ func (h handler) Register(c *gin.Context) {
 
 }
 
-func (h handler) Login(w http.ResponseWriter, r *http.Request) {
+func (h handler) Login(c *gin.Context) {
 	var json models.Login
-	var user models.User
-	fmt.Print(json.Fullname, json.Password)
-	h.DB.Where("Fullname = ?", json.Fullname).First(&user)
-	h.DB.Where("Fullname = ?", json.Password).First(&user)
+	if err := c.ShouldBindJSON(&json); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"err": err.Error()})
+		return
+	}
+
+	var emailExist models.Login
+	if err := h.DB.Where("username = ?", json.Email).First(&emailExist).Error; err != nil {
+	} else {
+		c.JSON(http.StatusOK, gin.H{"status": "error", "message": "User Does Not Exist"})
+	}
+
+	var passwordExist models.Login
+	if err := h.DB.Where("username = ?", json.Password).First(&passwordExist).Error; err != nil {
+		c.JSON(http.StatusOK, gin.H{"status": "ok", "message": "Login Success"})
+	} else {
+		c.JSON(http.StatusOK, gin.H{"status": "error", "message": "Login Fail"})
+	}
 
 }
