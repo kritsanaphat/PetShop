@@ -31,7 +31,6 @@ func (h handler) Register(c *gin.Context) {
 		log.Fatalln(err)
 	}
 	encryptedPassword, _ := bcrypt.GenerateFromPassword([]byte(json.Password), 10)
-
 	var user models.User = models.User{ID: uuid, Password: string(encryptedPassword)}
 	if err := c.ShouldBindJSON(&user); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
