@@ -1,21 +1,17 @@
 package models
 
 import (
-	"time"
-
 	"github.com/gofrs/uuid"
 	"gorm.io/gorm"
 )
 
 type User struct {
 	gorm.Model
-	ID         uuid.UUID `gorm:"type:uuid;primary_key;"`
-	Fullname   string    `json:"fullname"`
-	Password   string    `json:"password"`
-	Email      string    `json:"email"`
-	Address    Address   `gorm:"foreignKey:name;references:fullname"`
-	Created_At time.Time `json:"created_at"`
-	Updated_At time.Time `json:"updtaed_at"`
+	ID       uuid.UUID `gorm:"type:uuid;primary_key;"`
+	Fullname string    `gorm:"column:fullname"`
+	Password string    `gorm:"column:password"`
+	Email    string    `gorm:"column:email"`
+	Address  Address   `gorm:"foreignKey:Fullname;references:Fullname"`
 }
 
 type Register struct {
@@ -30,10 +26,10 @@ type Login struct {
 }
 type Address struct {
 	gorm.Model
-	Name        string `json:"name"`
-	House       string `json:"house"`
-	District    string `json:"district"`
-	Subdistrict string `json:"subdistrict"`
-	City        string `json:"city" `
-	Postcode    string `json:"postcode"`
+	Fullname    string `gorm:"column:fullname"`
+	House       string `gorm:"column:house;default:null"`
+	District    string `gorm:"column:district;default:null"`
+	Subdistrict string `gorm:"column:subdistrict;default:null"`
+	City        string `gorm:"column:city;default:null"`
+	Postcode    string `gorm:"column:postcode;default:null"`
 }

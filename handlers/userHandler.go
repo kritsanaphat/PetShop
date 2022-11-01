@@ -40,6 +40,7 @@ func (h handler) Register(c *gin.Context) {
 	encryptedPassword, _ := bcrypt.GenerateFromPassword([]byte(json.Password), 10)
 	user := models.User{ID: uuid, Password: string(encryptedPassword),
 		Fullname: json.Fullname, Email: json.Email}
+	address := models.Address{Fullname: json.Fullname}
 
 	if result := h.DB.Create(&user); result.Error != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
@@ -47,6 +48,8 @@ func (h handler) Register(c *gin.Context) {
 		})
 		return
 	}
+
+	h.DB.Create(&address)
 	c.JSON(http.StatusCreated, &user)
 
 }
