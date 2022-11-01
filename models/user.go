@@ -18,6 +18,12 @@ type User struct {
 	Updated_At time.Time `json:"updtaed_at"`
 }
 
+type Register struct {
+	Fullname string `json:"fullname"`
+	Password string `json:"password"`
+	Email    string `json:"email"`
+}
+
 type Login struct {
 	Email    string `json:"email"`
 	Password string `json:"password"`

@@ -25,7 +25,7 @@ func (h handler) GetRegister(c *gin.Context) {
 }
 
 func (h handler) Register(c *gin.Context) {
-	var json models.User
+	var json models.Register
 	if err := c.ShouldBindJSON(&json); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"error": err.Error(),
