@@ -11,7 +11,7 @@ type User struct {
 	Fullname string    `gorm:"column:fullname"`
 	Password string    `gorm:"column:password"`
 	Email    string    `gorm:"column:email"`
-	Address  Address   `gorm:"foreignKey:Fullname;references:Fullname"`
+	Address  Address   `json:"address"`
 }
 
 type Register struct {
@@ -25,11 +25,10 @@ type Login struct {
 	Password string `json:"password"`
 }
 type Address struct {
-	gorm.Model
-	Fullname    string `gorm:"column:fullname"`
-	House       string `gorm:"column:house;default:null"`
-	District    string `gorm:"column:district;default:null"`
-	Subdistrict string `gorm:"column:subdistrict;default:null"`
-	City        string `gorm:"column:city;default:null"`
-	Postcode    string `gorm:"column:postcode;default:null"`
+	Fullname    string `json:"fullname"`
+	House       string `json:"house"`
+	District    string `json:"district"`
+	Subdistrict string `json:"subdistrict"`
+	City        string `json:"city"`
+	Postcode    string `json:"postcode"`
 }

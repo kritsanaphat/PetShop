@@ -26,7 +26,7 @@ func (h handler) GetRegister(c *gin.Context) {
 
 func (h handler) Register(c *gin.Context) {
 	var json models.Register
-	if err := c.ShouldBindJSON(&json); err != nil {
+	if err := c.ShouldBindJSON(&json); err != nil { //Check the integrity of the information
 		c.JSON(http.StatusBadRequest, gin.H{
 			"error": err.Error(),
 		})
@@ -38,9 +38,21 @@ func (h handler) Register(c *gin.Context) {
 		log.Fatalln(err)
 	}
 	encryptedPassword, _ := bcrypt.GenerateFromPassword([]byte(json.Password), 10)
-	user := models.User{ID: uuid, Password: string(encryptedPassword),
-		Fullname: json.Fullname, Email: json.Email}
-	address := models.Address{Fullname: json.Fullname}
+	user := models.User{
+		ID:       uuid,
+		Password: string(encryptedPassword),
+		Fullname: json.Fullname,
+		Email:    json.Email,
+	}
+
+	address := models.Address{
+		Fullname:    json.Fullname,
+		House:       json.Fullname,
+		District:    json.Fullname,
+		Subdistrict: json.Fullname,
+		City:        json.Fullname,
+		Postcode:    json.Fullname,
+	}
 
 	if result := h.DB.Create(&user); result.Error != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
@@ -48,8 +60,12 @@ func (h handler) Register(c *gin.Context) {
 		})
 		return
 	}
-
-	h.DB.Create(&address)
+	if result := h.DB.Create(&address); result.Error != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"error": result.Error.Error(),
+		})
+		return
+	}
 	c.JSON(http.StatusCreated, &user)
 
 }
