@@ -46,7 +46,6 @@ func (h handler) Register(c *gin.Context) {
 	}
 
 	address := models.Address{
-		Fullname:    json.Fullname,
 		House:       json.Fullname,
 		District:    json.Fullname,
 		Subdistrict: json.Fullname,
