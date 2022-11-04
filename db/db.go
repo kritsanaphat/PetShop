@@ -9,7 +9,7 @@ import (
 )
 
 func Init() *gorm.DB {
-	url := "host=localhost user=postgres password=kritsanaphat dbname=petshop port=5432"
+	url := "host=localhost user=postgres password=kritsanaphat dbname=petShop port=5432"
 	db, err := gorm.Open(postgres.Open(url), &gorm.Config{})
 
 	if err != nil {

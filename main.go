@@ -18,5 +18,6 @@ func main() {
 	r.GET("/user", h.GetRegister)
 	r.POST("/register", h.Register)
 	r.POST("/login", h.Login)
+	r.POST("/addpet", h.AddPet)
 	http.ListenAndServe(":8080", r)
 }
