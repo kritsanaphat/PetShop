@@ -14,9 +14,11 @@ import (
 
 type Pet struct {
 	gorm.Model
-	ID     uuid.UUID `gorm:"type:uuid;primary_key;"`
-	Price  int32     `json:"price"`
-	Detail string    `json:"detail"`
+	ID      uuid.UUID `gorm:"type:uuid;primary_key;"`
+	Type    string    `json:"type"`
+	Species string    `json:"species"`
+	Price   int32     `json:"price"`
+	Detail  string    `json:"detail"`
 }
 
 type Shop struct {

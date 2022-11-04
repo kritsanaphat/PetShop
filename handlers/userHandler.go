@@ -11,7 +11,7 @@ import (
 	"golang.org/x/crypto/bcrypt"
 )
 
-func (h handler) GetRegister(c *gin.Context) {
+func (h handler) GetAllUser(c *gin.Context) {
 	var users []models.User
 
 	if result := h.DB.Find(&users); result.Error != nil {

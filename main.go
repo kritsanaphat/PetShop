@@ -32,9 +32,11 @@ func main() {
 	// fmt.Print(p)
 	r := gin.New()
 	r.Use(CORSMiddleware())
-	r.GET("/user", h.GetRegister)
+	r.GET("/alluser", h.GetAllUser)
 	r.POST("/register", h.Register)
 	r.POST("/login", h.Login)
 	r.POST("/addpet", h.AddPet)
+	r.GET("/allpet", h.GetAllPet)
+
 	http.ListenAndServe(":8080", r)
 }
