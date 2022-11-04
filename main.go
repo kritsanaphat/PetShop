@@ -32,8 +32,8 @@ func main() {
 	// fmt.Print(p)
 	r := gin.New()
 	r.Use(CORSMiddleware())
-	r.GET("/alluser", h.GetAllUser)
-	r.POST("/alluserbyid", h.GetUserByID)
+	r.GET("/getAllUser", h.GetAllUser)
+	r.GET("/getUserByID/:ID", h.GetUserByID)
 
 	r.POST("/register", h.Register)
 	r.POST("/login", h.Login)

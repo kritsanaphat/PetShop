@@ -25,11 +25,15 @@ func (h handler) GetAllUser(c *gin.Context) {
 }
 
 func (h handler) GetUserByID(c *gin.Context) {
+	id := c.Params.ByName("ID")
 	var user models.User
-	var json models.Search
-	h.DB.First(&user.ID, json.ID)
+	if err := h.DB.Where("ID = ?", id).First(&user).Error; err != nil {
+		c.AbortWithStatus(404)
+		fmt.Println(err)
+		return
+	}
 
-	c.JSON(http.StatusOK, &user)
+	c.JSON(http.StatusCreated, &user)
 
 }
 
