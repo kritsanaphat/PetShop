@@ -11,7 +11,6 @@ type User struct {
 	Fullname string    `json:"fullname"`
 	Password string    `json:"password"`
 	Email    string    `json:"email"`
-	Address  Address   `json:"address" gorm:"foreignKey:ID;references:ID"`
 }
 
 type Register struct {
@@ -26,10 +25,15 @@ type Login struct {
 }
 
 type Address struct {
-	Fullname    string `json:"fullname"`
-	House       string `json:"house"`
-	District    string `json:"district"`
-	Subdistrict string `json:"subdistrict"`
-	City        string `json:"city"`
-	Postcode    string `json:"postcode"`
+	AddressID   uuid.UUID `json:"Address_ID" gorm:"primary_key;"`
+	Fullname    string    `json:"fullname"`
+	House       string    `json:"house"`
+	District    string    `json:"district"`
+	Subdistrict string    `json:"subdistrict"`
+	City        string    `json:"city"`
+	Postcode    string    `json:"postcode"`
+}
+
+type Search struct {
+	ID uuid.UUID
 }

@@ -24,6 +24,15 @@ func (h handler) GetAllUser(c *gin.Context) {
 	c.JSON(http.StatusOK, &users)
 }
 
+func (h handler) GetUserByID(c *gin.Context) {
+	var user models.User
+	var json models.Search
+	h.DB.First(&user.ID, json.ID)
+
+	c.JSON(http.StatusOK, &user)
+
+}
+
 func (h handler) Register(c *gin.Context) {
 	var json models.Register
 	if err := c.ShouldBindJSON(&json); err != nil { //Check the integrity of the information
@@ -44,8 +53,17 @@ func (h handler) Register(c *gin.Context) {
 		Fullname: json.Fullname,
 		Email:    json.Email,
 	}
-
+	address := models.Address{
+		AddressID: uuid,
+		Fullname:  json.Fullname,
+	}
 	if result := h.DB.Create(&user); result.Error != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"error": result.Error.Error(),
+		})
+		return
+	}
+	if result := h.DB.Create(&address); result.Error != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"error": result.Error.Error(),
 		})
@@ -53,6 +71,7 @@ func (h handler) Register(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusCreated, &user)
+	c.JSON(http.StatusCreated, &address)
 
 }
 

@@ -33,6 +33,8 @@ func main() {
 	r := gin.New()
 	r.Use(CORSMiddleware())
 	r.GET("/alluser", h.GetAllUser)
+	r.POST("/alluserbyid", h.GetUserByID)
+
 	r.POST("/register", h.Register)
 	r.POST("/login", h.Login)
 	r.POST("/addpet", h.AddPet)
