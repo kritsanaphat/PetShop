@@ -5,10 +5,16 @@ import (
 	"gorm.io/gorm"
 )
 
+// type petType string
+
+// const (
+// 	DOG petType = "DOG"
+// 	CAT petType = "CAT"
+// )
+
 type Pet struct {
 	gorm.Model
 	ID     uuid.UUID `gorm:"type:uuid;primary_key;"`
-	Type   petType   `gorm:"type:ENUM('DOG', 'CAT')"`
 	Price  int32     `json:"price"`
 	Detail string    `json:"detail"`
 }
@@ -21,10 +27,3 @@ type Shop struct {
 
 	// Address  Address   `gorm:"column:Fullname"`
 }
-
-type petType string
-
-const (
-	DOG petType = "DOG"
-	CAT petType = "CAT"
-)

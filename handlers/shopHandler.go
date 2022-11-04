@@ -1,8 +1,6 @@
 package handlers
 
 import (
-	"database/sql/driver"
-	"errors"
 	"log"
 	"net/http"
 
@@ -10,15 +8,6 @@ import (
 	"github.com/gofrs/uuid"
 	"github.com/kritsanaphat/PetShop/models"
 )
-
-// Value validate enum when set to database
-func (t models.petType) Value() (driver.Value, error) {
-	switch t {
-	case IT, Decorate, Etc: //valid case
-		return string(t), nil
-	}
-	return nil, errors.New("Invalid product type value") //else is invalid
-}
 
 func (h handler) AddPet(c *gin.Context) {
 	var json models.Pet
@@ -33,6 +22,7 @@ func (h handler) AddPet(c *gin.Context) {
 	if err != nil {
 		log.Fatalln(err)
 	}
+
 	pet := models.Pet{
 		ID:     uuid,
 		Price:  json.Price,
