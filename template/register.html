@@ -23,14 +23,14 @@
         const password= document.getElementById("password")
         const email = document.getElementById("email")
         const submit = document.getElementById("myBtn")
-        // console.log(fullname.value)
-        // console.log(password.value)
-        // console.log(submit.value)
+        console.log(fullname.value)
+        console.log(password.value)
+        console.log(submit.value)
         const submitCommand = () => { 
-            axios.post('http://localhost:8080/user',
+            console.log("Posted")
+
+            axios.post('http://localhost:8080/register',
             {
-                
-                ID : "4959ac83-3f2d-4da6-b1c7-9ba81c390043",
                 fullname: fullname.value,
                 password: password.value,
                 email: email.value
