@@ -45,26 +45,13 @@ func (h handler) Register(c *gin.Context) {
 		Email:    json.Email,
 	}
 
-	// address := models.Address{
-	// 	House:       json.Fullname,
-	// 	District:    json.Fullname,
-	// 	Subdistrict: json.Fullname,
-	// 	City:        json.Fullname,
-	// 	Postcode:    json.Fullname,
-	// }
-
 	if result := h.DB.Create(&user); result.Error != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"error": result.Error.Error(),
 		})
 		return
 	}
-	// if result := h.DB.Create(&address); result.Error != nil {
-	// 	c.JSON(http.StatusInternalServerError, gin.H{
-	// 		"error": result.Error.Error(),
-	// 	})
-	// 	return
-	// }
+
 	c.JSON(http.StatusCreated, &user)
 
 }
@@ -75,7 +62,6 @@ func (h handler) Login(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"err": err.Error()})
 		return
 	}
-	// fmt.Print(json.Email, json.Password)
 	var userExist models.User
 	if err := h.DB.Where("Email = ?", json.Email).First(&userExist).Error; err != nil {
 		fmt.Print(userExist)
