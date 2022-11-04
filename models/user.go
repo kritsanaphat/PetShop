@@ -11,7 +11,7 @@ type User struct {
 	Fullname string    `json:"fullname"`
 	Password string    `json:"password"`
 	Email    string    `json:"email"`
-	Address  Address   `json:"address"`
+	Address  Address   `json:"address" gorm:"foreignKey:ID;references:ID"`
 }
 
 type Register struct {
