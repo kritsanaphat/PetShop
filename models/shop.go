@@ -1,15 +1,14 @@
 package models
 
 import (
-	"database/sql/driver"
-
 	"github.com/gofrs/uuid"
 	"gorm.io/gorm"
 )
 
 type Pet struct {
+	gorm.Model
 	ID     uuid.UUID `gorm:"type:uuid;primary_key;"`
-	Petype Petype    `json:"pet_type"`
+	Type   petType   `gorm:"type:ENUM('DOG', 'CAT')"`
 	Price  int32     `json:"price"`
 	Detail string    `json:"detail"`
 }
@@ -23,18 +22,9 @@ type Shop struct {
 	// Address  Address   `gorm:"column:Fullname"`
 }
 
-type Petype string
+type petType string
 
 const (
-	DOG Petype = "DOG"
-	CAT Petype = "CAT"
+	DOG petType = "DOG"
+	CAT petType = "CAT"
 )
-
-func (ct *Petype) Scan(value interface{}) error {
-	*ct = Petype(value.([]byte))
-	return nil
-}
-
-func (ct Petype) Value() (driver.Value, error) {
-	return string(ct), nil
-}
