@@ -25,7 +25,7 @@ type Login struct {
 }
 
 type Address struct {
-	AddressID   uuid.UUID `json:"Address_ID" gorm:"primary_key;"`
+	AddressID   uuid.UUID `json:"AddressID" gorm:"primary_key;"`
 	Fullname    string    `json:"fullname"`
 	House       string    `json:"house"`
 	District    string    `json:"district"`

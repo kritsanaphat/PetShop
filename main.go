@@ -34,6 +34,7 @@ func main() {
 	r.Use(CORSMiddleware())
 	r.GET("/getAllUser", h.GetAllUser)
 	r.GET("/getUserByID/:ID", h.GetUserByID)
+	r.PATCH("/updateUser/:ID", h.UpdateAddress)
 
 	r.POST("/register", h.Register)
 	r.POST("/login", h.Login)
