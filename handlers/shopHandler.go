@@ -21,6 +21,7 @@ func (h handler) GetAllPet(c *gin.Context) {
 
 	c.JSON(http.StatusOK, &pets)
 }
+
 func (h handler) AddPet(c *gin.Context) {
 	var json models.Pet
 	if err := c.ShouldBindJSON(&json); err != nil { //Check the integrity of the information
