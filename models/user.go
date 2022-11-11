@@ -37,3 +37,9 @@ type Address struct {
 type Search struct {
 	ID uuid.UUID
 }
+
+type Favorite struct {
+	gorm.Model
+	User_ID uuid.UUID
+	Pet_ID  uuid.UUID
+}
