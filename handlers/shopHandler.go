@@ -38,7 +38,8 @@ func (h handler) AddPet(c *gin.Context) {
 
 	pet := models.Pet{
 		ID:      uuid,
-		Type:    json.Type,
+		PetType: json.PetType,
+		Color:   json.Color,
 		Species: json.Species,
 		Price:   json.Price,
 		Detail:  json.Detail,
