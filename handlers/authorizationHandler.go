@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"os"
 
 	"github.com/gin-gonic/gin"
 	"github.com/gofrs/uuid"
@@ -76,7 +77,7 @@ func (h handler) Login(c *gin.Context) {
 		return
 
 	} else {
-		hmacSampleSecret = []byte("my_secret_key")
+		hmacSampleSecret = []byte(os.Getenv("JWT_SECRET_KEY"))
 		token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
 			"ID": userExist.ID,
 		})

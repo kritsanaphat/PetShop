@@ -2,6 +2,7 @@ package db
 
 import (
 	"log"
+	"os"
 
 	"github.com/kritsanaphat/PetShop/models"
 	"gorm.io/driver/postgres"
@@ -9,7 +10,7 @@ import (
 )
 
 func Init() *gorm.DB {
-	url := "host=localhost user=postgres password=kritsanaphat dbname=petShop port=5432"
+	url := os.Getenv("DATABASE_URL")
 	db, err := gorm.Open(postgres.Open(url), &gorm.Config{})
 
 	if err != nil {

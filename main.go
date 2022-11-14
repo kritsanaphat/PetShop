@@ -1,9 +1,11 @@
 package main
 
 import (
+	"log"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
+	"github.com/joho/godotenv"
 	"github.com/kritsanaphat/PetShop/db"
 	"github.com/kritsanaphat/PetShop/handlers"
 )
@@ -25,17 +27,20 @@ func CORSMiddleware() gin.HandlerFunc {
 	}
 }
 func main() {
+	err := godotenv.Load(".env")
+
+	if err != nil {
+		log.Fatal("Error loading .env file")
+	}
+
 	DB := db.Init()
 	h := handlers.New(DB)
-	// router := mux.NewRouter()
-	// p := models.User{Fullname: "krit"}
-	// fmt.Print(p)
 	r := gin.New()
 	r.Use(CORSMiddleware())
+
 	r.GET("/getAllUser", h.GetAllUser)
 	r.GET("/getUserByID/:ID", h.GetUserByID)
 	r.PATCH("/updateUser/:ID", h.UpdateAddress)
-
 	r.POST("/register", h.Register)
 	r.POST("/login", h.Login)
 	r.POST("/addpet", h.AddPet)
