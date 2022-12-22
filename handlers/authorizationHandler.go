@@ -18,6 +18,7 @@ var hmacSampleSecret []byte
 
 func (h handler) Register(c *gin.Context) {
 	var json models.Register
+
 	if err := c.ShouldBindJSON(&json); err != nil { //Check the integrity of the information
 		c.JSON(http.StatusBadRequest, gin.H{
 			"error": err.Error(),
@@ -33,7 +34,7 @@ func (h handler) Register(c *gin.Context) {
 	user := models.Account{
 		AccountID: uuid,
 		Password:  string(encryptedPassword),
-		Username:  json.Fullname,
+		Username:  json.Username,
 		Email:     json.Email,
 		Phone:     json.Phone,
 	}
@@ -61,7 +62,7 @@ func (h handler) Register(c *gin.Context) {
 
 func (h handler) Login(c *gin.Context) {
 	var json models.Login
-	var userExist models.User
+	var userExist models.Account
 
 	if err := c.ShouldBindJSON(&json); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"err": err.Error()})
