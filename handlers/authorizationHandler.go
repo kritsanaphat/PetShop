@@ -30,31 +30,32 @@ func (h handler) Register(c *gin.Context) {
 		log.Fatalln(err)
 	}
 	encryptedPassword, _ := bcrypt.GenerateFromPassword([]byte(json.Password), 10)
-	user := models.User{
-		ID:       uuid,
-		Password: string(encryptedPassword),
-		Fullname: json.Fullname,
-		Email:    json.Email,
+	user := models.Account{
+		AccountID: uuid,
+		Password:  string(encryptedPassword),
+		Username:  json.Fullname,
+		Email:     json.Email,
+		Phone:     json.Phone,
 	}
-	address := models.Address{
-		AddressID: uuid,
-		Fullname:  json.Fullname,
-	}
+	// address := models.Address{
+	// 	AddressID: uuid,
+	// 	Fullname:  json.Fullname,
+	// }
 	if result := h.DB.Create(&user); result.Error != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"error": result.Error.Error(),
 		})
 		return
 	}
-	if result := h.DB.Create(&address); result.Error != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{
-			"error": result.Error.Error(),
-		})
-		return
-	}
+	// if result := h.DB.Create(&address); result.Error != nil {
+	// 	c.JSON(http.StatusInternalServerError, gin.H{
+	// 		"error": result.Error.Error(),
+	// 	})
+	// 	return
+	// }
 
 	c.JSON(http.StatusCreated, &user)
-	c.JSON(http.StatusCreated, &address)
+	//c.JSON(http.StatusCreated, &address)
 
 }
 

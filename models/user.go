@@ -5,12 +5,24 @@ import (
 	"gorm.io/gorm"
 )
 
-type User struct {
+type Account struct {
 	gorm.Model
-	ID       uuid.UUID `json:"ID" gorm:"primary_key;"`
-	Fullname string    `json:"fullname"`
-	Password string    `json:"password"`
-	Email    string    `json:"email"`
+	AccountID uuid.UUID `json:"ID" gorm:"primary_key;"`
+	Username  string    `json:"username"`
+	Password  string    `json:"password"`
+	Email     string    `json:"email"`
+	Phone     string    `json:"phone"`
+	Address   Address   `gorm:"foreignKey:ID;references:AccountID"`
+}
+
+type Address struct {
+	ID          uuid.UUID `json:"AddressID" gorm:"primary_key;"`
+	Fullname    string    `json:"fullname"`
+	House       string    `json:"house"`
+	District    string    `json:"district"`
+	Subdistrict string    `json:"subdistrict"`
+	City        string    `json:"city"`
+	Postcode    string    `json:"postcode"`
 }
 
 type Register struct {
@@ -22,16 +34,6 @@ type Register struct {
 type Login struct {
 	Email    string `json:"email"`
 	Password string `json:"password"`
-}
-
-type Address struct {
-	AddressID   uuid.UUID `json:"AddressID" gorm:"primary_key;"`
-	Fullname    string    `json:"fullname"`
-	House       string    `json:"house"`
-	District    string    `json:"district"`
-	Subdistrict string    `json:"subdistrict"`
-	City        string    `json:"city"`
-	Postcode    string    `json:"postcode"`
 }
 
 type Search struct {

@@ -28,7 +28,7 @@ func (h handler) GetAllUser(c *gin.Context) {
 
 	if _, ok := token.Claims.(jwt.MapClaims); ok && token.Valid { //valid
 		//fmt.Println(claims["ID"])
-		var users []models.User
+		var users []models.Account
 
 		if result := h.DB.Find(&users); result.Error != nil {
 			c.JSON(http.StatusInternalServerError, gin.H{
@@ -47,7 +47,7 @@ func (h handler) GetAllUser(c *gin.Context) {
 
 func (h handler) GetUserByID(c *gin.Context) {
 	id := c.Params.ByName("ID")
-	var user models.User
+	var user models.Account
 	if err := h.DB.Where("ID = ?", id).First(&user).Error; err != nil {
 		c.AbortWithStatus(404)
 		fmt.Println(err)
@@ -58,29 +58,29 @@ func (h handler) GetUserByID(c *gin.Context) {
 
 }
 
-func (h handler) UpdateAddress(c *gin.Context) {
-	var json models.Address
-	id := c.Params.ByName("ID")
-	var address models.Address
-	if err := h.DB.Where("Address_ID = ?", id).First(&address).Error; err != nil {
-		c.AbortWithStatus(404)
-		fmt.Println(err)
-		return
-	} else {
-		fmt.Println("Found")
-	}
-	fmt.Print(address.AddressID)
-	h.DB.Model(address).Where("Address_ID = ?", id).Updates(models.Address{
-		AddressID:   address.AddressID,
-		Fullname:    address.Fullname,
-		House:       json.House,
-		District:    json.District,
-		Subdistrict: json.Subdistrict,
-		City:        json.City,
-		Postcode:    json.Postcode,
-	})
+// func (h handler) UpdateAddress(c *gin.Context) {
+// 	var json models.Address
+// 	id := c.Params.ByName("ID")
+// 	var address models.Address
+// 	if err := h.DB.Where("Address_ID = ?", id).First(&address).Error; err != nil {
+// 		c.AbortWithStatus(404)
+// 		fmt.Println(err)
+// 		return
+// 	} else {
+// 		fmt.Println("Found")
+// 	}
+// 	fmt.Print(address.AddressID)
+// 	h.DB.Model(address).Where("Address_ID = ?", id).Updates(models.Address{
+// 		AddressID:   address.AddressID,
+// 		Fullname:    address.Fullname,
+// 		House:       json.House,
+// 		District:    json.District,
+// 		Subdistrict: json.Subdistrict,
+// 		City:        json.City,
+// 		Postcode:    json.Postcode,
+// 	})
 
-	c.BindJSON(&address)
-	h.DB.Save(&address)
-	c.JSON(http.StatusCreated, &address)
-}
+// 	c.BindJSON(&address)
+// 	h.DB.Save(&address)
+// 	c.JSON(http.StatusCreated, &address)
+// }
