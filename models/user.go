@@ -18,8 +18,6 @@ type Account struct {
 type Address struct {
 	gorm.Model
 	ID          uuid.UUID `gorm:"primary_key"`
-	Address     Address   `gorm:"ForeignKey:ID"`
-	Fullname    string    `json:"fullname"`
 	House       string    `json:"house"`
 	District    string    `json:"district"`
 	Subdistrict string    `json:"subdistrict"`
@@ -28,7 +26,7 @@ type Address struct {
 }
 
 type Register struct {
-	Username string `json:"fullname"`
+	Username string `json:"username"`
 	Password string `json:"password"`
 	Email    string `json:"email"`
 	Phone    string `json:"phone"`

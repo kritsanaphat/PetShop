@@ -38,25 +38,24 @@ func (h handler) Register(c *gin.Context) {
 		Email:     json.Email,
 		Phone:     json.Phone,
 	}
-	// address := models.Address{
-	// 	AddressID: uuid,
-	// 	Fullname:  json.Fullname,
-	// }
+	address := models.Address{
+		ID: uuid,
+	}
 	if result := h.DB.Create(&user); result.Error != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"error": result.Error.Error(),
 		})
 		return
 	}
-	// if result := h.DB.Create(&address); result.Error != nil {
-	// 	c.JSON(http.StatusInternalServerError, gin.H{
-	// 		"error": result.Error.Error(),
-	// 	})
-	// 	return
-	// }
+	if result := h.DB.Create(&address); result.Error != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"error": result.Error.Error(),
+		})
+		return
+	}
 
 	c.JSON(http.StatusCreated, &user)
-	//c.JSON(http.StatusCreated, &address)
+	c.JSON(http.StatusCreated, &address)
 
 }
 
