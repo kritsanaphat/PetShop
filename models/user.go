@@ -7,17 +7,16 @@ import (
 
 type Account struct {
 	gorm.Model
-	AccountID uuid.UUID `json:"ID" gorm:"primary_key;"`
+	AccountID uuid.UUID `json:"AccountID" gorm:"primary_key;"`
 	Username  string    `json:"username"`
 	Password  string    `json:"password"`
 	Email     string    `json:"email"`
 	Phone     string    `json:"phone"`
-	Address   Address   `gorm:"foreignKey:ID;references:AccountID"`
 }
 
 type Address struct {
 	gorm.Model
-	ID          uuid.UUID `gorm:"primary_key"`
+	ID          uuid.UUID `json:"ID" gorm:"primary_key"`
 	House       string    `json:"house"`
 	District    string    `json:"district"`
 	Subdistrict string    `json:"subdistrict"`
