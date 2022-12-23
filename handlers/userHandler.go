@@ -26,8 +26,8 @@ func (h handler) GetAllUser(c *gin.Context) {
 		return hmacSampleSecret, nil
 	})
 
-	if _, ok := token.Claims.(jwt.MapClaims); ok && token.Valid { //valid
-		//fmt.Println(claims["ID"])
+	if claims, ok := token.Claims.(jwt.MapClaims); ok && token.Valid { //valid
+		fmt.Println(claims["AccountID"])
 		var users []models.Account
 
 		if result := h.DB.Find(&users); result.Error != nil {
