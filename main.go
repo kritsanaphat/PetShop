@@ -9,7 +9,6 @@ import (
 	"github.com/kritsanaphat/PetShop/db"
 	"github.com/kritsanaphat/PetShop/handlers"
 	"github.com/kritsanaphat/PetShop/middleware"
-	_ "github.com/kritsanaphat/PetShop/middleware"
 )
 
 func CORSMiddleware() gin.HandlerFunc {
@@ -37,18 +36,18 @@ func main() {
 
 	DB := db.Init()
 	h := handlers.New(DB)
-	r := gin.New()
+
+	r := gin.Default()
 	r.Use(CORSMiddleware())
 
-	r.GET("/getAllUser", h.GetAllUser)
 	r.GET("/getUserByID/:ID", h.GetUserByID)
-	//r.PATCH("/updateUser/:ID", h.UpdateAddress)
+	r.PATCH("/updateUser/:ID", h.UpdateAddress)
 	r.POST("/register", h.Register)
 	r.POST("/login", h.Login)
 	r.POST("/addpet", h.AddPet)
 	r.GET("/allpet", h.GetAllPet)
 
-	authorized := r.Group("/handlers", middleware.MiddlewareJWT)
+	authorized := r.Group("/user", middleware.MiddlewareJWT())
 	authorized.GET("getAllUser", h.GetAllUser)
 
 	http.ListenAndServe(":8080", r)
