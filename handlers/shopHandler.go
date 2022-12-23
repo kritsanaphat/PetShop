@@ -37,12 +37,17 @@ func (h handler) AddPet(c *gin.Context) {
 	}
 
 	pet := models.Pet{
-		ID:      uuid,
-		PetType: json.PetType,
-		Color:   json.Color,
-		Species: json.Species,
-		Price:   json.Price,
-		Detail:  json.Detail,
+		//ID:          uuid,
+		ID:          uuid,
+		Type:        json.Type,
+		Species:     json.Species,
+		Color:       json.Color,
+		Sex:         json.Sex,
+		Weight:      json.Weight,
+		Height:      json.Height,
+		Price:       json.Price,
+		Description: json.Description,
+		Age:         json.Age,
 	}
 
 	if result := h.DB.Create(&pet); result.Error != nil {

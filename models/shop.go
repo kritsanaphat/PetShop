@@ -5,28 +5,26 @@ import (
 	"gorm.io/gorm"
 )
 
-// type petType string
-
-// const (
-// 	DOG petType = "DOG"
-// 	CAT petType = "CAT"
-// )
+type Shop struct {
+	gorm.Model
+	ShopID    uuid.UUID `json:"ID" gorm:"primary_key;"`
+	ShopName  string    `json:"shopname"`
+	Firstname string    `json:"firstname"`
+	Lastname  string    `json:"lastname"`
+	Phone     string    `json:"phone"`
+}
 
 type Pet struct {
 	gorm.Model
-	ID      uuid.UUID `gorm:"type:uuid;primary_key;"`
-	PetType string    `json:"type"`
-	Species string    `json:"species"`
-	Color   string    `json:"color"`
-	Price   int32     `json:"price"`
-	Detail  string    `json:"detail"`
-}
-
-type Shop struct {
-	gorm.Model
-	ID       uuid.UUID `json:"ID" gorm:"primary_key;"`
-	Nameshop string    `json:"fullname"`
-	Phone    string    `json:"phone"`
-
-	// Address  Address   `gorm:"column:Fullname"`
+	ID          uuid.UUID `json:"ID" gorm:"primary_key;"`
+	ShopID      uuid.UUID `json:"shopID" gorm:"foreign_key;"`
+	Type        string    `json:"type"`
+	Species     string    `json:"species"`
+	Color       string    `json:"color"`
+	Sex         string    `json:"sex"`
+	Weight      float32   `json:"weight"`
+	Height      float32   `json:"height"`
+	Price       float32   `json:"price"`
+	Description string    `json:"detail"`
+	Age         string    `json:"age"`
 }

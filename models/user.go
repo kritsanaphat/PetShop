@@ -7,7 +7,7 @@ import (
 
 type Account struct {
 	gorm.Model
-	AccountID uuid.UUID `json:"AccountID" gorm:"primary_key;"`
+	AccountID uuid.UUID `json:"accountID" gorm:"primary_key;"`
 	Username  string    `json:"username"`
 	Password  string    `json:"password"`
 	Email     string    `json:"email"`
@@ -32,7 +32,7 @@ type Register struct {
 }
 
 type Login struct {
-	Email    string `json:"email"`
+	Username string `json:"username"`
 	Password string `json:"password"`
 }
 

@@ -67,7 +67,7 @@ func (h handler) Login(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"err": err.Error()})
 		return
 	}
-	if err := h.DB.Where("Email = ?", json.Email).First(&userExist).Error; err != nil {
+	if err := h.DB.Where("Email = ?", json.Username).First(&userExist).Error; err != nil {
 		fmt.Print(userExist)
 		c.JSON(http.StatusOK, gin.H{"status": "error", "message": "User Does Not Exist"})
 		return
