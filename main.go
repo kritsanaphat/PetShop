@@ -40,15 +40,16 @@ func main() {
 	r := gin.Default()
 	r.Use(CORSMiddleware())
 
-	r.GET("/getUserByID/:ID", h.GetUserByID)
+	r.GET("/getUserByID/:ID", h.Profile)
 	r.PATCH("/updateUser/:ID", h.UpdateAddress)
-	r.POST("/register", h.Register)
-	r.POST("/login", h.Login)
+	r.POST("/register", h.UserRegister)
+	r.POST("/login", h.UserLogin)
 	r.POST("/addpet", h.AddPet)
 	r.GET("/allpet", h.GetAllPet)
 
 	authorized := r.Group("/user", middleware.MiddlewareJWT())
 	authorized.GET("getAllUser", h.GetAllUser)
+	authorized.GET("/profile", h.Profile)
 
 	http.ListenAndServe(":8080", r)
 }

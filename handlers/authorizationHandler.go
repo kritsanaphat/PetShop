@@ -16,7 +16,7 @@ import (
 
 var hmacSampleSecret []byte
 
-func (h handler) Register(c *gin.Context) {
+func (h handler) UserRegister(c *gin.Context) {
 	var json models.Register
 
 	if err := c.ShouldBindJSON(&json); err != nil { //Check the integrity of the information
@@ -56,10 +56,9 @@ func (h handler) Register(c *gin.Context) {
 
 	c.JSON(http.StatusCreated, &user)
 	c.JSON(http.StatusCreated, &address)
-
 }
 
-func (h handler) Login(c *gin.Context) {
+func (h handler) UserLogin(c *gin.Context) {
 	var json models.Login
 	var userExist models.Account
 
@@ -81,13 +80,55 @@ func (h handler) Login(c *gin.Context) {
 	} else {
 		hmacSampleSecret = []byte(os.Getenv("JWT_SECRET_KEY"))
 		token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
-			"ID":  userExist.ID,
+			"ID":  userExist.AccountID,
 			"exp": time.Now().Add(time.Minute * 1).Unix(), //Exp just 1 min
 		})
+
 		tokenString, err := token.SignedString(hmacSampleSecret)
 		fmt.Println(tokenString, err)
 
 		c.JSON(http.StatusOK, gin.H{"status": "ok", "message": "Login Success", "token": tokenString})
 	}
+}
 
+func (h handler) ShopRegister(c *gin.Context) {
+	var json models.Shop
+
+	if err := c.ShouldBindJSON(&json); err != nil { //Check the integrity of the information
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error": err.Error(),
+		})
+		return
+	}
+
+	uuid, err := uuid.NewV4()
+	if err != nil {
+		log.Fatalln(err)
+	}
+
+	shop := models.Shop{
+		ShopID:    uuid,
+		ShopName:  json.ShopName,
+		Firstname: json.Firstname,
+		Lastname:  json.Lastname,
+		Phone:     json.Phone,
+	}
+
+	address := models.Address{
+		ID: uuid,
+	}
+	if result := h.DB.Create(&shop); result.Error != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"error": result.Error.Error(),
+		})
+		return
+	}
+	if result := h.DB.Create(&address); result.Error != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"error": result.Error.Error(),
+		})
+		return
+	}
+
+	c.JSON(http.StatusCreated, &shop)
 }

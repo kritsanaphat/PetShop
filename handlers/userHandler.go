@@ -20,20 +20,19 @@ func (h handler) GetAllUser(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, &users)
-
 }
 
-func (h handler) GetUserByID(c *gin.Context) {
-	id := c.Params.ByName("ID")
-	var user models.Account
-	if err := h.DB.Where("ID = ?", id).First(&user).Error; err != nil {
+func (h handler) Profile(c *gin.Context) {
+	var user []models.Account
+	accountID := c.MustGet("AccountID").(string)
+	fmt.Print("FROM Profile ", accountID)
+	if err := h.DB.Where("account_id = ?", accountID).First(&user).Error; err != nil {
 		c.AbortWithStatus(404)
 		fmt.Println(err)
 		return
 	}
 
 	c.JSON(http.StatusCreated, &user)
-
 }
 
 func (h handler) UpdateAddress(c *gin.Context) {

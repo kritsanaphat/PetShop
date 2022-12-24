@@ -58,5 +58,4 @@ func (h handler) AddPet(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusCreated, &pet)
-
 }

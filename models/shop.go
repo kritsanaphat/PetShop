@@ -7,6 +7,7 @@ import (
 
 type Shop struct {
 	gorm.Model
+	AccountID uuid.UUID `json:"accountID"`
 	ShopID    uuid.UUID `json:"ID" gorm:"primary_key;"`
 	ShopName  string    `json:"shopname"`
 	Firstname string    `json:"firstname"`

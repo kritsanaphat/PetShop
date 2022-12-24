@@ -21,20 +21,18 @@ func MiddlewareJWT() gin.HandlerFunc {
 				return nil, fmt.Errorf("Unexpected signing method: %v", token.Header["alg"])
 			}
 
-			// hmacSampleSecret is a []byte containing your secret, e.g. []byte("my_secret_key")
 			return hmacSampleSecret, nil
 		})
 
 		if claims, ok := token.Claims.(jwt.MapClaims); ok && token.Valid { //valid
-			fmt.Println(claims["AccountID"])
-			c.Set("AccountID", "claims[AccountID]")
+			fmt.Println("FROM : Middleware", claims["ID"])
+			c.Set("AccountID", claims["ID"])
 		} else {
 			c.AbortWithStatusJSON(http.StatusOK, gin.H{"status": "error", "messege": err.Error()})
 			return
 		}
 
 		// before request
-
 		c.Next()
 	}
 }
