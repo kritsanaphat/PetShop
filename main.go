@@ -47,10 +47,11 @@ func main() {
 	r.POST("/addpet", h.AddPet)
 	r.GET("/allpet", h.GetAllPet)
 
-	authorized := r.Group("/user", middleware.MiddlewareJWT())
-	authorized.GET("getAllUser", h.GetAllUser)
-	authorized.GET("/profile", h.Profile)
-	authorized.POST("/shopRegister", h.ShopRegister)
+	userAuthorized := r.Group("/user", middleware.UserMiddlewareJWT())
+	userAuthorized.GET("getAllUser", h.GetAllUser)
+	userAuthorized.GET("/profile", h.Profile)
+	userAuthorized.POST("/shopRegister", h.ShopRegister)
+	userAuthorized.GET("/swapToShop", h.SwaptoShop)
 
 	http.ListenAndServe(":8080", r)
 }

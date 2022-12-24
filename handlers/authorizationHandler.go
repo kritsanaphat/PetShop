@@ -86,8 +86,7 @@ func (h handler) UserLogin(c *gin.Context) {
 			"exp": time.Now().Add(time.Minute * 1).Unix(), //Exp just 1 min
 		})
 
-		tokenString, err := token.SignedString(hmacSampleSecret)
-		fmt.Println(tokenString, err)
+		tokenString, _ := token.SignedString(hmacSampleSecret)
 
 		c.JSON(http.StatusOK, gin.H{"status": "ok", "message": "Login Success", "token": tokenString})
 	}
@@ -130,4 +129,26 @@ func (h handler) ShopRegister(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusCreated, &shop)
+}
+
+func (h handler) SwaptoShop(c *gin.Context) {
+
+	var shop []models.Shop
+	accountID := c.MustGet("AccountID").(string)
+	fmt.Print("FROM Profile ", accountID)
+	if err := h.DB.Where("account_id = ?", accountID).First(&shop).Error; err != nil {
+		// c.AbortWithStatus(404)
+		c.JSON(http.StatusBadRequest, gin.H{"status": "error", "message": "The user has not registered as a shop account"})
+		return
+	}
+	var shopExist models.Shop
+	hmacSampleSecret = []byte(os.Getenv("JWT_SECRET_KEY"))
+	token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
+		"ID":  shopExist.ShopID,
+		"exp": time.Now().Add(time.Minute * 1).Unix(), //Exp just 1 min
+	})
+
+	tokenString, _ := token.SignedString(hmacSampleSecret)
+	c.JSON(http.StatusOK, gin.H{"status": "ok", "message": "Swap to Shop Success", "token": tokenString})
+
 }

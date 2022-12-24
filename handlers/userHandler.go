@@ -59,3 +59,16 @@ func (h handler) UpdateAddress(c *gin.Context) {
 	h.DB.Save(&address)
 	c.JSON(http.StatusCreated, &address)
 }
+
+func (h handler) GetAllPet(c *gin.Context) {
+	var pets []models.Pet
+
+	if result := h.DB.Find(&pets); result.Error != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"error": result.Error.Error(),
+		})
+		return
+	}
+
+	c.JSON(http.StatusOK, &pets)
+}
