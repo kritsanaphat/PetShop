@@ -50,6 +50,7 @@ func main() {
 	authorized := r.Group("/user", middleware.MiddlewareJWT())
 	authorized.GET("getAllUser", h.GetAllUser)
 	authorized.GET("/profile", h.Profile)
+	authorized.POST("/shopRegister", h.ShopRegister)
 
 	http.ListenAndServe(":8080", r)
 }

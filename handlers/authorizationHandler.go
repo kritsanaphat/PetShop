@@ -10,6 +10,8 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/gofrs/uuid"
 	"github.com/golang-jwt/jwt/v4"
+
+	//"github.com/google/uuid"
 	"github.com/kritsanaphat/PetShop/models"
 	"golang.org/x/crypto/bcrypt"
 )
@@ -105,8 +107,14 @@ func (h handler) ShopRegister(c *gin.Context) {
 	if err != nil {
 		log.Fatalln(err)
 	}
+	accountID := c.MustGet("AccountID").(string)
+	// I can't use FromString  Method from  "github.com/gofrs/uuid"
+	//uuidAccount := uuid.FromString(accountID)
+
+	fmt.Print("FROM ShopRegister ", accountID)
 
 	shop := models.Shop{
+		AccountID: accountID,
 		ShopID:    uuid,
 		ShopName:  json.ShopName,
 		Firstname: json.Firstname,
@@ -114,16 +122,7 @@ func (h handler) ShopRegister(c *gin.Context) {
 		Phone:     json.Phone,
 	}
 
-	address := models.Address{
-		ID: uuid,
-	}
 	if result := h.DB.Create(&shop); result.Error != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{
-			"error": result.Error.Error(),
-		})
-		return
-	}
-	if result := h.DB.Create(&address); result.Error != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"error": result.Error.Error(),
 		})
