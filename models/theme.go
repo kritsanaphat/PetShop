@@ -8,7 +8,7 @@ import (
 type Theme struct {
 	gorm.Model
 	ThemeID  uuid.UUID `json:"themeID" gorm:"primary_key;"`
-	AuthorID uuid.UUID `json:"authorID"`
+	AuthorID string    `json:"authorID"`
 	Topic    string    `json:"topic"`
 	Content  string    `json:"content"`
 }

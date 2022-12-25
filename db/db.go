@@ -22,6 +22,7 @@ func Init() *gorm.DB {
 		&models.Pet{},
 		&models.Address{},
 		&models.Shop{},
+		&models.Theme{},
 	)
 
 	return db
