@@ -18,7 +18,7 @@ type Shop struct {
 type Pet struct {
 	gorm.Model
 	ID          uuid.UUID `json:"ID" gorm:"primary_key;"`
-	ShopID      uuid.UUID `json:"shopID" gorm:"foreign_key;"`
+	ShopID      string    `json:"shopID" gorm:"foreign_key;"`
 	Type        string    `json:"type"`
 	Species     string    `json:"species"`
 	Color       string    `json:"color"`
@@ -26,6 +26,6 @@ type Pet struct {
 	Weight      float32   `json:"weight"`
 	Height      float32   `json:"height"`
 	Price       float32   `json:"price"`
-	Description string    `json:"detail"`
-	Age         string    `json:"age"`
+	Description string    `json:"description"`
+	Age         int16     `json:"age"`
 }

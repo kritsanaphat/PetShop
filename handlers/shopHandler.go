@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	"fmt"
 	"log"
 	"net/http"
 
@@ -22,9 +23,12 @@ func (h handler) AddPet(c *gin.Context) {
 	if err != nil {
 		log.Fatalln(err)
 	}
-
+	shopID := c.MustGet("ShopID").(string)
+	fmt.Print("FROM add pet shopID", shopID)
+	// I can't use FromString  Method from  "github.com/gofrs/uuid"
+	//uuidAccount := uuid.FromString(accountID)
 	pet := models.Pet{
-		//ID:          uuid,
+		ShopID:      shopID,
 		ID:          uuid,
 		Type:        json.Type,
 		Species:     json.Species,

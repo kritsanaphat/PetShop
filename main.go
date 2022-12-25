@@ -44,14 +44,15 @@ func main() {
 	r.PATCH("/updateUser/:ID", h.UpdateAddress)
 	r.POST("/register", h.UserRegister)
 	r.POST("/login", h.UserLogin)
-	r.POST("/addpet", h.AddPet)
-	r.GET("/allpet", h.GetAllPet)
 
 	userAuthorized := r.Group("/user", middleware.UserMiddlewareJWT())
 	userAuthorized.GET("getAllUser", h.GetAllUser)
 	userAuthorized.GET("/profile", h.Profile)
 	userAuthorized.POST("/shopRegister", h.ShopRegister)
 	userAuthorized.GET("/swapToShop", h.SwaptoShop)
+
+	shopAuthorized := r.Group("/shop", middleware.ShopMiddlewareJWT())
+	shopAuthorized.POST("/addpet", h.AddPet)
 
 	http.ListenAndServe(":8080", r)
 }

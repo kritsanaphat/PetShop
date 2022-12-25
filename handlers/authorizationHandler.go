@@ -110,8 +110,8 @@ func (h handler) ShopRegister(c *gin.Context) {
 	// I can't use FromString  Method from  "github.com/gofrs/uuid"
 	//uuidAccount := uuid.FromString(accountID)
 
-	fmt.Print("FROM ShopRegister ", accountID)
-
+	fmt.Print("FROM ShopRegister accountID ", accountID)
+	fmt.Print("FROM ShopRegister shopID ", uuid)
 	shop := models.Shop{
 		AccountID: accountID,
 		ShopID:    uuid,
@@ -133,22 +133,25 @@ func (h handler) ShopRegister(c *gin.Context) {
 
 func (h handler) SwaptoShop(c *gin.Context) {
 
-	var shop []models.Shop
+	//query user token
+	var shop models.Shop
 	accountID := c.MustGet("AccountID").(string)
-	fmt.Print("FROM Profile ", accountID)
+	fmt.Println("FROM SWAP AccountID", accountID)
+
 	if err := h.DB.Where("account_id = ?", accountID).First(&shop).Error; err != nil {
-		// c.AbortWithStatus(404)
 		c.JSON(http.StatusBadRequest, gin.H{"status": "error", "message": "The user has not registered as a shop account"})
 		return
 	}
-	var shopExist models.Shop
-	hmacSampleSecret = []byte(os.Getenv("JWT_SECRET_KEY"))
+
+	fmt.Println("SHOPID", shop.ShopID)
+	hmacSampleSecret = []byte(os.Getenv("JWT_SECRET_KEY2"))
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
-		"ID":  shopExist.ShopID,
+		"ID":  shop.ShopID,
 		"exp": time.Now().Add(time.Minute * 1).Unix(), //Exp just 1 min
 	})
 
 	tokenString, _ := token.SignedString(hmacSampleSecret)
+	fmt.Println("FROM SWAP token shop", tokenString)
 	c.JSON(http.StatusOK, gin.H{"status": "ok", "message": "Swap to Shop Success", "token": tokenString})
 
 }
