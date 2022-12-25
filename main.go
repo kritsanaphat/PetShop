@@ -51,6 +51,7 @@ func main() {
 	userAuthorized.POST("/shopRegister", h.ShopRegister)
 	userAuthorized.GET("/swapToShop", h.SwaptoShop)
 	userAuthorized.PATCH("/updateAddress", h.UpdateAddress)
+	userAuthorized.POST("/createTheme", h.CreateTheme)
 
 	shopAuthorized := r.Group("/shop", middleware.ShopMiddlewareJWT())
 	shopAuthorized.POST("/addpet", h.AddPet)

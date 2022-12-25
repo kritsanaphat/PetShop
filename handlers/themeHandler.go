@@ -12,12 +12,13 @@ import (
 
 func (h handler) CreateTheme(c *gin.Context) {
 	var json models.Theme
+	c.ShouldBindJSON(&json)
 
 	uuid, err := uuid.NewV4()
 	if err != nil {
 		log.Fatalln(err)
 	}
-
+	fmt.Print(json.Topic)
 	accountID := c.MustGet("AccountID").(string)
 	fmt.Print("FROM create theme accountID", accountID)
 	theme := models.Theme{
@@ -33,4 +34,5 @@ func (h handler) CreateTheme(c *gin.Context) {
 		})
 		return
 	}
+	c.JSON(http.StatusCreated, &theme)
 }

@@ -52,6 +52,8 @@ func (h handler) UpdateAddress(c *gin.Context) {
 
 	accountID := c.MustGet("AccountID").(string)
 	var json models.Address
+	c.ShouldBindJSON(&json)
+
 	var address models.Address
 	if err := h.DB.Where("id = ?", accountID).First(&address).Error; err != nil {
 		c.AbortWithStatus(404)
@@ -68,7 +70,6 @@ func (h handler) UpdateAddress(c *gin.Context) {
 		Postcode:    json.Postcode,
 	})
 
-	c.BindJSON(&address)
 	h.DB.Save(&address)
 	c.JSON(http.StatusCreated, &address)
 }
