@@ -41,7 +41,7 @@ func main() {
 	r.Use(CORSMiddleware())
 
 	r.GET("/getUserByID/:ID", h.Profile)
-	r.PATCH("/updateUser/:ID", h.UpdateAddress)
+	//r.PATCH("/updateUser/:ID", h.UpdateAddress)
 	r.POST("/register", h.UserRegister)
 	r.POST("/login", h.UserLogin)
 
@@ -50,6 +50,7 @@ func main() {
 	userAuthorized.GET("/profile", h.Profile)
 	userAuthorized.POST("/shopRegister", h.ShopRegister)
 	userAuthorized.GET("/swapToShop", h.SwaptoShop)
+	userAuthorized.PATCH("/updateAddress", h.UpdateAddress)
 
 	shopAuthorized := r.Group("/shop", middleware.ShopMiddlewareJWT())
 	shopAuthorized.POST("/addpet", h.AddPet)

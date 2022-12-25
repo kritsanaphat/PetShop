@@ -8,6 +8,19 @@ import (
 	"github.com/kritsanaphat/PetShop/models"
 )
 
+func (h handler) GetAllPet(c *gin.Context) {
+	var pets []models.Pet
+
+	if result := h.DB.Find(&pets); result.Error != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"error": result.Error.Error(),
+		})
+		return
+	}
+
+	c.JSON(http.StatusOK, &pets)
+}
+
 func (h handler) GetAllUser(c *gin.Context) {
 
 	var users []models.Account
@@ -36,18 +49,18 @@ func (h handler) Profile(c *gin.Context) {
 }
 
 func (h handler) UpdateAddress(c *gin.Context) {
+
+	accountID := c.MustGet("AccountID").(string)
 	var json models.Address
-	id := c.Params.ByName("ID")
 	var address models.Address
-	if err := h.DB.Where("Address_ID = ?", id).First(&address).Error; err != nil {
+	if err := h.DB.Where("id = ?", accountID).First(&address).Error; err != nil {
 		c.AbortWithStatus(404)
 		fmt.Println(err)
 		return
 	} else {
 		fmt.Println("Found")
 	}
-	h.DB.Model(address).Where("Address_ID = ?", id).Updates(models.Address{
-		ID:          address.ID,
+	h.DB.Model(address).Where("id = ?", accountID).Updates(models.Address{
 		House:       json.House,
 		District:    json.District,
 		Subdistrict: json.Subdistrict,
@@ -58,17 +71,4 @@ func (h handler) UpdateAddress(c *gin.Context) {
 	c.BindJSON(&address)
 	h.DB.Save(&address)
 	c.JSON(http.StatusCreated, &address)
-}
-
-func (h handler) GetAllPet(c *gin.Context) {
-	var pets []models.Pet
-
-	if result := h.DB.Find(&pets); result.Error != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{
-			"error": result.Error.Error(),
-		})
-		return
-	}
-
-	c.JSON(http.StatusOK, &pets)
 }

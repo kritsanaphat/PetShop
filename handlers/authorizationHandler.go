@@ -153,5 +153,4 @@ func (h handler) SwaptoShop(c *gin.Context) {
 	tokenString, _ := token.SignedString(hmacSampleSecret)
 	fmt.Println("FROM SWAP token shop", tokenString)
 	c.JSON(http.StatusOK, gin.H{"status": "ok", "message": "Swap to Shop Success", "token": tokenString})
-
 }
