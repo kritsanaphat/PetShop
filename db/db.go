@@ -23,6 +23,7 @@ func Init() *gorm.DB {
 		&models.Address{},
 		&models.Shop{},
 		&models.Theme{},
+		&models.Comment{},
 	)
 
 	return db

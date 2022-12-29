@@ -36,3 +36,28 @@ func (h handler) CreateTheme(c *gin.Context) {
 	}
 	c.JSON(http.StatusCreated, &theme)
 }
+
+func (h handler) CreateComment(c *gin.Context) {
+	var json models.Comment
+	c.ShouldBindJSON(&json)
+
+	uuid, err := uuid.NewV4()
+	if err != nil {
+		log.Fatalln(err)
+	}
+	accountID := c.MustGet("AccountID").(string)
+	fmt.Print("FROM create comment accountID", accountID)
+	comment := models.Comment{
+		ThemeID:   json.ThemeID,
+		CommentID: uuid,
+		Comment:   json.Comment,
+	}
+
+	if result := h.DB.Create(&comment); result.Error != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"error": result.Error.Error(),
+		})
+		return
+	}
+	c.JSON(http.StatusCreated, &comment)
+}
