@@ -35,7 +35,7 @@ func (h handler) GetAllUser(c *gin.Context) {
 	c.JSON(http.StatusOK, &users)
 }
 
-func (h handler) Profile(c *gin.Context) {
+func (h handler) GetProfile(c *gin.Context) {
 	var user []models.Account
 	accountID := c.MustGet("AccountID").(string)
 	fmt.Print("FROM Profile ", accountID)
@@ -46,6 +46,19 @@ func (h handler) Profile(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusCreated, &user)
+}
+
+func (h handler) GetTheme(c *gin.Context) {
+	var themes []models.Theme
+
+	if result := h.DB.Find(&themes); result.Error != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"error": result.Error.Error(),
+		})
+		return
+	}
+
+	c.JSON(http.StatusOK, &themes)
 }
 
 func (h handler) UpdateAddress(c *gin.Context) {

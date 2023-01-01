@@ -40,14 +40,15 @@ func main() {
 	r := gin.Default()
 	r.Use(CORSMiddleware())
 
-	r.GET("/getUserByID/:ID", h.Profile)
+	r.GET("/getUserByID/:ID", h.GetProfile)
 	//r.PATCH("/updateUser/:ID", h.UpdateAddress)
 	r.POST("/register", h.UserRegister)
 	r.POST("/login", h.UserLogin)
 
 	userAuthorized := r.Group("/user", middleware.UserMiddlewareJWT())
 	userAuthorized.GET("getAllUser", h.GetAllUser)
-	userAuthorized.GET("/profile", h.Profile)
+	userAuthorized.GET("/profile", h.GetProfile)
+	userAuthorized.GET("/theme", h.GetTheme)
 	userAuthorized.POST("/shopRegister", h.ShopRegister)
 	userAuthorized.GET("/swapToShop", h.SwaptoShop)
 	userAuthorized.PATCH("/updateAddress", h.UpdateAddress)
