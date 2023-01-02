@@ -43,6 +43,7 @@ func (h handler) UserRegister(c *gin.Context) {
 	address := models.Address{
 		ID: uuid,
 	}
+
 	if result := h.DB.Create(&user); result.Error != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"error": result.Error.Error(),

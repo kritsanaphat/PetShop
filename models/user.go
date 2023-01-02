@@ -16,7 +16,7 @@ type Account struct {
 
 type Address struct {
 	gorm.Model
-	ID          uuid.UUID `json:"ID" gorm:"primary_key"`
+	ID          uuid.UUID `json:"accountID" gorm:"primary_key"`
 	House       string    `json:"house"`
 	District    string    `json:"district"`
 	Subdistrict string    `json:"subdistrict"`
@@ -24,6 +24,12 @@ type Address struct {
 	Postcode    string    `json:"postcode"`
 }
 
+type Chart struct {
+	gorm.Model
+	ChartID uuid.UUID `json:"chartID" gorm:"primary_key"`
+	ID      string    `json:"accountID"`
+	Item    uuid.UUID `json:"itemID"`
+}
 type Register struct {
 	Username string `json:"username"`
 	Password string `json:"password"`
