@@ -10,6 +10,19 @@ import (
 	"github.com/kritsanaphat/PetShop/models"
 )
 
+func (h handler) GetAllItemFromChart(c *gin.Context) {
+	var chart []models.Chart
+	accountID := c.MustGet("AccountID").(string)
+	fmt.Print("FROM GetAllItemFromChart ", accountID)
+	if err := h.DB.Where("id = ?", accountID).Find(&chart).Error; err != nil {
+		c.AbortWithStatus(404)
+		fmt.Println(err)
+		return
+	}
+
+	c.JSON(http.StatusCreated, &chart)
+}
+
 func (h handler) AddToChart(c *gin.Context) {
 	var json models.Chart
 	c.ShouldBindJSON(&json)
@@ -35,4 +48,16 @@ func (h handler) AddToChart(c *gin.Context) {
 		return
 	}
 	c.JSON(http.StatusCreated, &chart)
+}
+
+func (h handler) RemoveItem(c *gin.Context) {
+	var json models.Chart
+	c.ShouldBindJSON(&json)
+
+	var chart models.Chart
+	h.DB.Delete(&chart, json.ChartID)
+
+	var charts []models.Chart
+	c.JSON(http.StatusCreated, &charts)
+
 }
