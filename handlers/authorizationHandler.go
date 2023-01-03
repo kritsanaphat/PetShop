@@ -132,7 +132,7 @@ func (h handler) ShopRegister(c *gin.Context) {
 	c.JSON(http.StatusCreated, &shop)
 }
 
-func (h handler) SwaptoShop(c *gin.Context) {
+func (h handler) LoginShop(c *gin.Context) {
 
 	//query user token
 	var shop models.Shop

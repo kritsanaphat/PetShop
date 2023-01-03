@@ -50,7 +50,7 @@ func main() {
 	userAuthorized.GET("/profile", h.GetProfile)
 	userAuthorized.GET("/theme", h.GetTheme)
 	userAuthorized.POST("/shopRegister", h.ShopRegister)
-	userAuthorized.GET("/swapToShop", h.SwaptoShop)
+	userAuthorized.GET("/swapToShop", h.LoginShop)
 	userAuthorized.PATCH("/updateAddress", h.UpdateAddress)
 	userAuthorized.POST("/createTheme", h.CreateTheme)
 	userAuthorized.POST("/createComment", h.CreateComment)
