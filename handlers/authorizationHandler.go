@@ -210,7 +210,7 @@ func (h handler) AdminLogin(c *gin.Context) {
 		return
 
 	} else {
-		hmacSampleSecret = []byte(os.Getenv("JWT_SECRET_KEY"))
+		hmacSampleSecret = []byte(os.Getenv("JWT_SECRET_KEY3"))
 		token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
 			"ID":  adminExist.AdminID,
 			"exp": time.Now().Add(time.Minute * 1).Unix(), //Exp just 1 min

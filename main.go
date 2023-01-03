@@ -62,5 +62,8 @@ func main() {
 	shopAuthorized := r.Group("/shop", middleware.ShopMiddlewareJWT())
 	shopAuthorized.POST("/addpet", h.AddPet)
 
+	adminAuthorized := r.Group("/admin", middleware.AdminMiddlewareJWT())
+	adminAuthorized.POST("/addCoupon", h.AddCoupon)
+
 	http.ListenAndServe(":8080", r)
 }
