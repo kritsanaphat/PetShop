@@ -15,6 +15,7 @@ type Theme struct {
 
 type Comment struct {
 	gorm.Model
+	AuthorID  string    `json:"authorID"`
 	ThemeID   uuid.UUID `json:"themeID" gorm:"foreign_key;"`
 	CommentID uuid.UUID `json:"commentID" gorm:"primary_key;"`
 	Comment   string    `json:"comment"`
