@@ -25,6 +25,7 @@ func Init() *gorm.DB {
 		&models.Theme{},
 		&models.Comment{},
 		&models.Chart{},
+		&models.Admin{},
 	)
 
 	return db

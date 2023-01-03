@@ -155,3 +155,38 @@ func (h handler) SwaptoShop(c *gin.Context) {
 	fmt.Println("FROM SWAP token shop", tokenString)
 	c.JSON(http.StatusOK, gin.H{"status": "ok", "message": "Swap to Shop Success", "token": tokenString})
 }
+
+func (h handler) AdminRegister(c *gin.Context) {
+	var json models.Admin
+
+	if err := c.ShouldBindJSON(&json); err != nil { //Check the integrity of the information
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error": err.Error(),
+		})
+		return
+	}
+
+	uuid, err := uuid.NewV4()
+	if err != nil {
+		log.Fatalln(err)
+	}
+	encryptedPassword, _ := bcrypt.GenerateFromPassword([]byte(json.Password), 10)
+	admin := models.Admin{
+		AdminID:    uuid,
+		EmployeeID: json.EmployeeID,
+		Password:   string(encryptedPassword),
+		Username:   json.Username,
+		Email:      json.Email,
+	}
+
+	if result := h.DB.Create(&admin); result.Error != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"error": result.Error.Error(),
+		})
+		return
+	}
+
+	c.JSON(http.StatusCreated, "Register Admin Successfully")
+	c.JSON(http.StatusCreated, &admin)
+
+}

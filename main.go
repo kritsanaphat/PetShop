@@ -41,9 +41,9 @@ func main() {
 	r.Use(CORSMiddleware())
 
 	r.GET("/getUserByID/:ID", h.GetProfile)
-	//r.PATCH("/updateUser/:ID", h.UpdateAddress)
 	r.POST("/register", h.UserRegister)
 	r.POST("/login", h.UserLogin)
+	r.POST("/adminRegister", h.AdminRegister)
 
 	userAuthorized := r.Group("/user", middleware.UserMiddlewareJWT())
 	userAuthorized.GET("getAllUser", h.GetAllUser)
