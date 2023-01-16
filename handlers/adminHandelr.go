@@ -45,5 +45,4 @@ func (h handler) AddCoupon(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusCreated, &coupon)
-
 }

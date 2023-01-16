@@ -28,4 +28,44 @@ type Pet struct {
 	Price       float32   `json:"price"`
 	Description string    `json:"description"`
 	Age         int16     `json:"age"`
+	Tag         string    `json:"tag"`
 }
+
+// type Type string
+
+// const (
+// 	Dog        Type = "dog"
+// 	Cat        Type = "cat"
+// 	Fish       Type = "fish"
+// 	Rabbit     Type = "rabbit"
+// 	Mice       Type = "mice"
+// 	Ant        Type = "ant"
+// 	Brid       Type = "brid"
+// 	Amphibians Type = "amphibians"
+// 	Reptiles   Type = "reptiles"
+// )
+
+// func (e Type) String() string {
+// 	switch e {
+// 	case Dog:
+// 		return "Dog"
+// 	case Cat:
+// 		return "Cat"
+// 	case Fish:
+// 		return "Fish"
+// 	case Rabbit:
+// 		return "Rabbit"
+// 	case Mice:
+// 		return "Mice"
+// 	case Ant:
+// 		return "Ant"
+// 	case Brid:
+// 		return "Brid"
+// 	case amphibians:
+// 		return "amphibians"
+// 	case reptiles:
+// 		return "reptiles"
+// 	default:
+// 		return fmt.Sprintf("%d", int(e))
+// 	}
+// }

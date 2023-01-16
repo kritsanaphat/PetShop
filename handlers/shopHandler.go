@@ -39,6 +39,7 @@ func (h handler) AddPet(c *gin.Context) {
 		Price:       json.Price,
 		Description: json.Description,
 		Age:         json.Age,
+		Tag:         json.Tag,
 	}
 
 	if result := h.DB.Create(&pet); result.Error != nil {
@@ -49,4 +50,8 @@ func (h handler) AddPet(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusCreated, &pet)
+}
+
+func (h handler) EditPet(c *gin.Context) {
+
 }
