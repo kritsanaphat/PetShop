@@ -58,6 +58,7 @@ func main() {
 	userAuthorized.POST("/addToChart", h.AddToChart)
 	userAuthorized.DELETE("/removeItem", h.RemoveItem)
 	userAuthorized.GET("/getAllItemFromChart", h.GetAllItemFromChart)
+	userAuthorized.GET("/BuyItem", h.BuyItem)
 
 	shopAuthorized := r.Group("/shop", middleware.ShopMiddlewareJWT())
 	shopAuthorized.POST("/addpet", h.AddPet)
