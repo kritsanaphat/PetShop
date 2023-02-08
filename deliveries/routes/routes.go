@@ -10,7 +10,7 @@ import (
 
 func SetupRouter() *gin.Engine {
 
-	todoRepo := repositories.NewToDoRepository(databases.DB)
+	todoRepo := repositories.NewToDoRepository(databases.Init())
 	todoUseCase := usecases.NewToDoUseCase(todoRepo)
 	todoHandler := deliveries.NewToDoHandler(todoUseCase)
 

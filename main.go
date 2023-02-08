@@ -1,14 +1,9 @@
 package main
 
 import (
-	"fmt"
-
 	"github.com/gin-gonic/gin"
 	"github.com/kritsanaphat/PetShop/databases"
 	"github.com/kritsanaphat/PetShop/deliveries/routes"
-	"github.com/kritsanaphat/PetShop/models"
-	"gorm.io/driver/postgres"
-	"gorm.io/gorm"
 )
 
 func CORSMiddleware() gin.HandlerFunc {
@@ -74,15 +69,17 @@ var err error
 
 func main() {
 
-	databases.DB, err = gorm.Open(postgres.Open(databases.DbURL(databases.BuildDBConfig())), &gorm.Config{})
-	if err != nil {
-		fmt.Println("statuse: ", err)
-	}
-	//defer databases.DB.Close()
-	// run the migrations: todo struct
-	databases.DB.AutoMigrate(
-		&models.Account{},
-	)
+	// databases.DB, err = gorm.Open(postgres.Open(databases.DbURL()), &gorm.Config{})
+	// if err != nil {
+	// 	fmt.Println("statuse db: ", err)
+	// }
+	// //defer databases.DB.Close()
+	// // run the migrations: todo struct
+	// databases.DB.AutoMigrate(
+	// 	&models.Account{},
+	// )
+
+	databases.Init()
 	//setup routes
 	r := routes.SetupRouter()
 	// running

@@ -49,7 +49,7 @@ func (t *ToDoHandler) UserRegister(c *gin.Context) {
 	err = t.todoUseCase.UserRegister(&user)
 
 	if err != nil {
-		c.AbortWithStatus(http.StatusNotFound)
+		c.AbortWithStatusJSON(http.StatusOK, gin.H{"status": "error", "messege": err.Error()})
 	} else {
 		c.JSON(http.StatusOK, user)
 	}
