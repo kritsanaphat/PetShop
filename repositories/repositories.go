@@ -9,7 +9,7 @@ type todoRepository struct {
 	DB *gorm.DB
 }
 
-func New(db *gorm.DB) todoRepository {
+func NewToDoRepository(db *gorm.DB) todoRepository {
 	return todoRepository{db}
 }
 
