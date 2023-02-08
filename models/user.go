@@ -2,7 +2,7 @@ package models
 
 import (
 	"github.com/gofrs/uuid"
-	"github.com/jinzhu/gorm"
+	"gorm.io/gorm"
 )
 
 type Account struct {

@@ -2,7 +2,7 @@ package routes
 
 import (
 	"github.com/gin-gonic/gin"
-	"github.com/kritsanaphat/PetShop/database"
+	"github.com/kritsanaphat/PetShop/databases"
 	"github.com/kritsanaphat/PetShop/deliveries"
 	"github.com/kritsanaphat/PetShop/repositories"
 	"github.com/kritsanaphat/PetShop/usecases"
@@ -10,7 +10,7 @@ import (
 
 func SetupRouter() *gin.Engine {
 
-	todoRepo := repositories.NewToDoRepository(database.DB)
+	todoRepo := repositories.NewToDoRepository(databases.DB)
 	todoUseCase := usecases.NewToDoUseCase(todoRepo)
 	todoHandler := deliveries.NewToDoHandler(todoUseCase)
 

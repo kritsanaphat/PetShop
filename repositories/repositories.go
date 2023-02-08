@@ -1,8 +1,8 @@
 package repositories
 
 import (
-	"github.com/jinzhu/gorm"
 	"github.com/kritsanaphat/PetShop/models"
+	"gorm.io/gorm"
 )
 
 type todoRepository struct {
@@ -14,7 +14,7 @@ func NewToDoRepository(db *gorm.DB) todoRepository {
 }
 
 func (t todoRepository) UserRegister(todo *models.Account) (err error) {
-	if err = t.conn.Create(todo).Error; err != nil {
+	if err = t.conn.Create(&todo).Error; err != nil {
 		return err
 	}
 	return nil

@@ -38,7 +38,6 @@ func (t *ToDoHandler) UserRegister(c *gin.Context) {
 	}
 
 	encryptedPassword, _ := bcrypt.GenerateFromPassword([]byte(json.Password), 10)
-
 	user := models.Account{
 		AccountID: uuid,
 		Password:  string(encryptedPassword),
