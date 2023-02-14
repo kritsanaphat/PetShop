@@ -1,6 +1,7 @@
 package deliveries
 
 import (
+	"fmt"
 	"log"
 	"net/http"
 
@@ -52,5 +53,43 @@ func (t *ToDoHandler) UserRegister(c *gin.Context) {
 		c.AbortWithStatusJSON(http.StatusOK, gin.H{"status": "error", "messege": err.Error()})
 	} else {
 		c.JSON(http.StatusOK, user)
+	}
+}
+
+func (t *ToDoHandler) ShopRegister(c *gin.Context) {
+	var json models.Shop
+
+	if err := c.ShouldBindJSON(&json); err != nil { //Check the integrity of the information
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error": err.Error(),
+		})
+		return
+	}
+
+	uuid, err := uuid.NewV4()
+	if err != nil {
+		log.Fatalln(err)
+	}
+	accountID := c.MustGet("AccountID").(string)
+	// I can't use FromString  Method from  "github.com/gofrs/uuid"
+	//uuidAccount := uuid.FromString(accountID)
+
+	fmt.Print("FROM ShopRegister accountID ", accountID)
+	fmt.Print("FROM ShopRegister shopID ", uuid)
+	shop := models.Shop{
+		AccountID: accountID,
+		ShopID:    uuid,
+		ShopName:  json.ShopName,
+		Firstname: json.Firstname,
+		Lastname:  json.Lastname,
+		Phone:     json.Phone,
+	}
+
+	err = t.todoUseCase.ShopRegister(&shop)
+
+	if err != nil {
+		c.AbortWithStatusJSON(http.StatusOK, gin.H{"status": "error", "messege": err.Error()})
+	} else {
+		c.JSON(http.StatusOK, shop)
 	}
 }

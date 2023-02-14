@@ -19,3 +19,10 @@ func (t todoRepository) UserRegister(todo *models.Account) (err error) {
 	}
 	return nil
 }
+
+func (t todoRepository) ShopRegister(todo *models.Shop) (err error) {
+	if err = t.conn.Create(&todo).Error; err != nil {
+		return err
+	}
+	return nil
+}

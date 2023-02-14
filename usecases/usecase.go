@@ -19,3 +19,8 @@ func (t *todoUseCase) UserRegister(input *models.Account) (err error) {
 	handleErr := t.todoRepo.UserRegister(input)
 	return handleErr
 }
+
+func (t *todoUseCase) ShopRegister(input *models.Shop) (err error) {
+	handleErr := t.todoRepo.ShopRegister(input)
+	return handleErr
+}
